@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net48</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
+        <PlatformTarget>x64</PlatformTarget>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Reference Include="System.Net.Http" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="DynaSnoopImages.resx">
+        <Generator></Generator>
+      </EmbeddedResource>
+    </ItemGroup>
+	<!--https://github.com/DynamoDS/Dynamo/issues/13199-->
+	<Target Name="GenerateCustomization" BeforeTargets="Build">
+		<GetReferenceAssemblyPaths TargetFrameworkMoniker=".NETFramework, Version=v2.0">
+			<Output TaskParameter="FullFrameworkReferenceAssemblyPaths" PropertyName="FrameworkAssembliesPath" />
+		</GetReferenceAssemblyPaths>
+		<GenerateResource SdkToolsPath="$(TargetFrameworkSDKToolsDirectory)" UseSourcePath="true" Sources="$(ProjectDir)DynaSnoopImages.resx" OutputResources="$(ProjectDir)DynaSnoopImages.resources" References="$(FrameworkAssembliesPath)System.Drawing.dll" />
+		<AL SdkToolsPath="$(TargetFrameworkSDKToolsDirectory)" TargetType="library" EmbedResources="$(ProjectDir)DynaSnoopImages.resources" OutputAssembly="$(OutDir)RevitLookupWpf.customization.dll" />
+	</Target>
+	<Target Name="AfterBuild" />
+</Project>

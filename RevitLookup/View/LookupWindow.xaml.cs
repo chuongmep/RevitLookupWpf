@@ -20,14 +20,14 @@ namespace RevitLookupWpf.View
             InitializeComponent();
             this.SetOwnerWindow();
             this.Closed += LookupWindow_Closed;
-        }
-        public LookupWindow(ExternalCommandData data) : this()
-        {
             _viewModel = new LookupWindowViewModel(this);
             _viewModel.CloseAction = Close;
             DataContext = _viewModel;
         }
-
+        public LookupWindow(ExternalCommandData data) : this()
+        {
+            
+        }
         public bool SetRvtInstance<TRvtObject>(TRvtObject rvtObject)
         {
             return _viewModel.SetRvtInstance(rvtObject);
